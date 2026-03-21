@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390, initial-scale=1.0">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 390px; height: 390px; background: #0a0a0a; overflow: hidden; }
+.card {
+  width: 390px; height: 390px;
+  background: #0a0a0a;
+  display: flex; flex-direction: column;
+  align-items: flex-start; justify-content: center;
+  padding: 36px; position: relative; overflow: hidden;
+}
+.line { width: 24px; height: 2px; background: #fff; margin-bottom: 22px; }
+.question { font-size: 38px; font-weight: 700; color: #fff; line-height: 1.15; margin-bottom: 18px; font-family: 'Georgia', serif; }
+.question span { color: #666; }
+.body { font-size: 15px; color: #999; line-height: 1.75; font-family: Arial, sans-serif; font-weight: 300; }
+.highlight { color: #fff; font-weight: 500; }
+.footer {
+  font-size: 11px; color: #444; font-family: Arial, sans-serif;
+  letter-spacing: 0.5px; text-transform: uppercase;
+  position: absolute; bottom: 28px; left: 36px; right: 36px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.handle { color: #fff; font-weight: 600; }
+.corner {
+  position: absolute; top: 22px; right: 22px; width: 36px; height: 36px;
+  border-top: 1.5px solid #222; border-right: 1.5px solid #222;
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="corner"></div>
+  <div class="line"></div>
+  <div class="question">А что если<br>ты <span>не</span><br>ленивый?</div>
+  <div class="body">
+    Пьёшь. Куришь. Скроллишь ленту часами.<br>
+    Сериалы нон-стоп. Не можешь<br>
+    <span class="highlight">заставить себя делать простые вещи.</span><br><br>
+    А тебе просто нужна помощь.
+  </div>
+  <div class="footer">
+    <span>Знать — это уже половина пути →</span>
+    <span class="handle">@bez.fufla</span>
+  </div>
+</div>
+</body>
+</html>
