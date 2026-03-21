@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Как ты себя чувствуешь?</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Onest:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f0eb;
+  --surface: #ffffff;
+  --surface2: #faf7f4;
+  --border: #e8e0d8;
+  --accent: #7c6af7;
+  --accent2: #a89cf7;
+  --text: #1a1a2e;
+  --text2: #6b6480;
+  --text3: #a09ab0;
+  --green: #4caf82;
+  --yellow: #f5a623;
+  --orange: #f07843;
+  --red: #e05252;
+  --card-shadow: 0 4px 24px rgba(124,106,247,0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Onest', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+/* HEADER */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 24px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: -0.3px;
+}
+.header-sub {
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 3px;
+}
+
+/* PROGRESS */
+.progress-wrap {
+  padding: 16px 24px 0;
+  max-width: 680px;
+  margin: 0 auto;
+}
+.progress-bar-bg {
+  background: var(--border);
+  border-radius: 99px;
+  height: 6px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+.progress-label {
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 6px;
+  text-align: right;
+}
+
+/* SCREENS */
+.screen { display: none !important; }
+.screen.active { display: block !important; }
+
+/* INTRO */
+.intro {
+  max-width: 680px;
+  margin: 40px auto;
+  padding: 0 24px;
+  text-align: center;
+}
+.intro-emoji { font-size: 64px; margin-bottom: 20px; line-height: 1; }
+.intro h1 {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+.intro p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text2);
+  margin-bottom: 12px;
+}
+.intro-note {
+  background: rgba(124,106,247,0.07);
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 14px;
+  color: var(--text2);
+  margin: 24px 0;
+  text-align: left;
+  line-height: 1.6;
+}
+.btn-start {
+  background: linear-gradient(135deg, var(--accent), #9b8cf9);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 16px 40px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Onest', sans-serif;
+  cursor: pointer;
+  transition: transform 0.15s, opacity 0.15s;
+  box-shadow: 0 6px 20px rgba(124,106,247,0.35);
+  width: 100%;
+  max-width: 320px;
+}
+.btn-start:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn-start:active { transform: scale(0.98); }
+
+/* QUESTIONS */
+.question-wrap {
+  max-width: 680px;
+  margin: 32px auto;
+  padding: 0 24px;
+}
+.question-card {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 28px 24px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+.question-num {
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+.question-text {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--text);
+  margin-bottom: 28px;
+}
+.options { display: flex; flex-direction: column; gap: 10px; }
+.option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  background: var(--surface2);
+  cursor: pointer;
+  transition: all 0.18s;
+  font-size: 15px;
+  color: var(--text2);
+  font-weight: 400;
+}
+.option:hover {
+  border-color: var(--accent2);
+  background: rgba(124,106,247,0.05);
+  color: var(--text);
+}
+.option.selected {
+  border-color: var(--accent);
+  background: rgba(124,106,247,0.08);
+  color: var(--accent);
+  font-weight: 500;
+}
+.option-score {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+  transition: all 0.18s;
+}
+.option.selected .option-score {
+  background: var(--accent);
+  color: white;
+}
+
+/* RED FLAGS */
+.red-flag-banner {
+  background: #fff5f5;
+  border: 1.5px solid #ffc0c0;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #c0392b;
+  line-height: 1.6;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+/* NAV BUTTONS */
+.nav-btns {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 24px;
+}
+.btn-back {
+  flex: 0 0 auto;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-size: 15px;
+  color: var(--text2);
+  cursor: pointer;
+  font-family: 'Onest', sans-serif;
+  transition: all 0.15s;
+}
+.btn-back:hover { border-color: var(--accent2); color: var(--accent); }
+.btn-next {
+  flex: 1;
+  background: linear-gradient(135deg, var(--accent), #9b8cf9);
+  border: none;
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  font-family: 'Onest', sans-serif;
+  transition: all 0.15s;
+  box-shadow: 0 4px 14px rgba(124,106,247,0.3);
+  opacity: 0.4;
+  pointer-events: none;
+}
+.btn-next.enabled { opacity: 1; pointer-events: all; }
+.btn-next:hover { opacity: 0.9; transform: translateY(-1px); }
+
+/* RESULT */
+.result-wrap {
+  max-width: 680px;
+  margin: 32px auto;
+  padding: 0 24px;
+}
+.result-card {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 32px 28px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+.result-emoji { font-size: 52px; text-align: center; margin-bottom: 16px; }
+.result-score-wrap {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.result-score {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 52px;
+  font-weight: 700;
+  line-height: 1;
+}
+.result-score-label {
+  font-size: 13px;
+  color: var(--text3);
+  margin-top: 4px;
+}
+.result-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+.result-text {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--text2);
+  text-align: center;
+  margin-bottom: 24px;
+}
+.result-rec {
+  background: var(--surface2);
+  border-radius: 14px;
+  padding: 18px 20px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.result-rec-title {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ALERT */
+.alert-card {
+  background: #fff5f5;
+  border: 2px solid #ffb3b3;
+  border-radius: 16px;
+  padding: 20px 22px;
+  margin-bottom: 16px;
+}
+.alert-title {
+  font-weight: 700;
+  color: #c0392b;
+  font-size: 15px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.alert-text {
+  font-size: 14px;
+  color: #7a2020;
+  line-height: 1.7;
+}
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.tab {
+  padding: 8px 16px;
+  border-radius: 99px;
+  border: 1.5px solid var(--border);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text2);
+  cursor: pointer;
+  background: var(--surface);
+  transition: all 0.15s;
+  font-family: 'Onest', sans-serif;
+}
+.tab:hover { border-color: var(--accent2); color: var(--accent); }
+.tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* INFO CARDS */
+.info-section {
+  max-width: 680px;
+  margin: 0 auto 20px;
+  padding: 0 24px;
+}
+.info-card {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 22px 22px;
+  border: 1px solid var(--border);
+  margin-bottom: 14px;
+  box-shadow: var(--card-shadow);
+}
+.info-card h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.info-card p, .info-card li {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text2);
+}
+.info-card ul { padding-left: 18px; }
+.info-card li { margin-bottom: 6px; }
+.tag-bad {
+  display: inline-block;
+  background: #fff0f0;
+  color: #c0392b;
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-right: 4px;
+}
+.tag-good {
+  display: inline-block;
+  background: #f0fff5;
+  color: #27ae60;
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+/* DOCTORS */
+.doctor-card {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 18px 20px;
+  border: 1px solid var(--border);
+  margin-bottom: 12px;
+}
+.doctor-name { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+.doctor-spec { font-size: 13px; color: var(--accent); margin-bottom 6px; }
+.doctor-link {
+  display: inline-block;
+  margin-top: 8px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+}
+.doctor-link:hover { text-decoration: underline; }
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  display: flex;
+  z-index: 200;
+}
+.bottom-nav-item {
+  flex: 1;
+  padding: 10px 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-size: 11px;
+  color: var(--text3);
+  font-weight: 500;
+}
+.bottom-nav-item.active { color: var(--accent); }
+.bottom-nav-item .nav-icon { font-size: 20px; display: block; margin-bottom: 2px; }
+
+/* DISCLAIMER */
+.disclaimer {
+  font-size: 12px;
+  color: var(--text3);
+  text-align: center;
+  line-height: 1.6;
+  padding: 16px 24px;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+@media (max-width: 480px) {
+  .intro h1 { font-size: 22px; }
+  .question-text { font-size: 16px; }
+  .result-score { font-size: 42px; }
+}
+</style>
+</head>
+<body>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <div class="bottom-nav-item active" onclick="showPage('test-page')" id="nav-test">
+    <span class="nav-icon">🧠</span>Тест
+  </div>
+  <div class="bottom-nav-item" onclick="showPage('info-page')" id="nav-info">
+    <span class="nav-icon">💊</span>О лечении
+  </div>
+  <div class="bottom-nav-item" onclick="showPage('doctors-page')" id="nav-doctors">
+    <span class="nav-icon">👩‍⚕️</span>Врачи
+  </div>
+</div>
+
+<!-- TEST PAGE -->
+<div id="test-page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-title">Как ты себя чувствуешь?</div>
+    <div class="header-sub">Скрининг депрессии · доказательная медицина</div>
+  </div>
+
+  <!-- INTRO SCREEN -->
+  <div id="screen-intro" class="screen active">
+    <div class="intro">
+      <div class="intro-emoji">🌿</div>
+      <h1>Проверь своё ментальное состояние</h1>
+      <p>18 вопросов. Займёт около 3 минут. Поможет понять — всё ли в порядке, или стоит обратиться за помощью.</p>
+      <div class="intro-note">
+        💡 <strong>Важно:</strong> Этот тест — информационный инструмент, не медицинский диагноз. Результат поможет тебе понять своё состояние и принять решение об обращении к специалисту.
+      </div>
+      <button class="btn-start" onclick="startTest()">Начать тест →</button>
+    </div>
+    <div class="disclaimer">
+      Разработано на основе доказательной медицины · Не является медицинским изделием
+    </div>
+  </div>
+
+  <!-- QUESTION SCREEN -->
+  <div id="screen-question" class="screen">
+    <div class="progress-wrap">
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+      <div class="progress-label" id="progress-label">Вопрос 1 из 18</div>
+    </div>
+
+    <div class="question-wrap">
+      <div id="red-flag-banner" class="red-flag-banner" style="display:none">
+        ❤️ <span>Это важный вопрос. Отвечай честно — твоя безопасность важнее всего.</span>
+      </div>
+      <div class="question-card">
+        <div class="question-num" id="q-num">Вопрос 1</div>
+        <div class="question-text" id="q-text"></div>
+        <div class="question-sub" style="font-size:13px;color:var(--text3);margin-bottom:16px;font-style:italic">За последние 2 недели:</div>
+        <div class="options" id="q-options"></div>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-back" onclick="prevQuestion()" id="btn-back">← Назад</button>
+      <button class="btn-next" id="btn-next" onclick="nextQuestion()">Далее →</button>
+    </div>
+  </div>
+
+  <!-- RESULT SCREEN -->
+  <div id="screen-result" class="screen">
+    <div class="result-wrap" id="result-content"></div>
+    <div class="disclaimer">
+      Результат носит информационный характер · Диагноз ставит врач
+    </div>
+  </div>
+
+</div>
+
+<!-- INFO PAGE -->
+<div id="info-page" style="display:none">
+  <div class="header">
+    <div class="header-title">О лечении депрессии</div>
+    <div class="header-sub">Только доказательная медицина</div>
+  </div>
+
+  <div style="max-width:680px;margin:24px auto;padding:0 24px 20px;">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('tab-ssri', this)">СИОЗС — без страшилок</div>
+      <div class="tab" onclick="switchTab('tab-fuflo', this)">Фуфломицины</div>
+      <div class="tab" onclick="switchTab('tab-questions', this)">Вопросы врачу</div>
+    </div>
+
+    <!-- СИОЗС -->
+    <div id="tab-ssri" class="tab-content active">
+      <div class="info-card">
+        <h3>🧬 Как работают СИОЗС?</h3>
+        <p>СИОЗС (селективные ингибиторы обратного захвата серотонина) — это не "таблетки счастья" и не наркотик. Они помогают мозгу лучше использовать серотонин — вещество, которое участвует в регуляции настроения.</p>
+      </div>
+      <div class="info-card">
+        <h3>⏱ Почему эффект не сразу?</h3>
+        <p>Это самый важный момент! Эффект наступает через <strong>2–6 недель</strong> регулярного приёма. Мозгу нужно время чтобы перестроиться. Многие бросают лечение именно в этот период — и зря.</p>
+      </div>
+      <div class="info-card">
+        <h3>⚠️ Почему в начале может быть хуже?</h3>
+        <p>В первые 1–2 недели возможно усиление тревоги, бессонница, беспокойство. Это <strong>нормальная и временная</strong> реакция. Не признак того, что лекарство не подходит. Скажи врачу — он может скорректировать дозу.</p>
+      </div>
+      <div class="info-card">
+        <h3>📋 Ориентировочные дозы (для информации)</h3>
+        <p style="margin-bottom:12px">⚠️ Дозы назначает только врач. Это информация для понимания — чтобы ты знал(а) если тебе назначают явно мало:</p>
+        <ul>
+          <li><strong>Сертралин (Золофт, Серената)</strong> — старт 25–50 мг, терапевтическая доза <strong>50–200 мг</strong>. 50 мг полгода без пересмотра — это красный флаг!</li>
+          <li><strong>Эсциталопрам (Ципралекс)</strong> — старт 5–10 мг, терапевтическая доза <strong>10–20 мг</strong></li>
+          <li><strong>Флуоксетин</strong> — старт 10–20 мг, терапевтическая доза <strong>20–60 мг</strong></li>
+          <li><strong>Пароксетин</strong> — старт 10–20 мг, терапевтическая доза <strong>20–50 мг</strong></li>
+          <li><strong>Венлафаксин</strong> — старт 37.5 мг, терапевтическая доза <strong>75–225 мг</strong></li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>❓ Частые страхи — развенчиваем</h3>
+        <ul>
+          <li><strong>"Привыкну и не смогу бросить"</strong> — СИОЗС не вызывают зависимости. При отмене нужно снижать дозу постепенно — это не то же самое что зависимость.</li>
+          <li><strong>"Стану зомби"</strong> — при правильной дозе этого не происходит. Если чувствуешь эмоциональное уплощение — скажи врачу, нужна коррекция.</li>
+          <li><strong>"Это навсегда"</strong> — первый эпизод депрессии лечится 6–12 месяцев, затем отмена.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ФУФЛОМИЦИНЫ -->
+    <div id="tab-fuflo" class="tab-content">
+      <div class="info-card">
+        <h3>❌ Что не работает при депрессии</h3>
+        <p style="margin-bottom:14px">Эти препараты широко рекламируются и назначаются, но не имеют доказательной базы при депрессии:</p>
+        <ul>
+          <li><span class="tag-bad">Глицин</span> — аминокислота, в мозг не проникает в клинически значимых количествах</li>
+          <li><span class="tag-bad">Фенибут</span> — в реестре ВОЗ отсутствует, в развитых странах не используется, вызывает зависимость</li>
+          <li><span class="tag-bad">Ноотропил / Пирацетам</span> — нет доказательств эффективности при депрессии</li>
+          <li><span class="tag-bad">Церебролизин</span> — не прошёл проверку в качественных РКИ</li>
+          <li><span class="tag-bad">Актовегин</span> — гомеопатия по своей доказательной базе</li>
+          <li><span class="tag-bad">Тенотен</span> — гомеопатический препарат</li>
+          <li><span class="tag-bad">Афобазол</span> — нет качественных РКИ, эффект не отличается от плацебо</li>
+          <li><span class="tag-bad">Персен / Новопассит</span> — лёгкая тревога, не депрессия</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>✅ Что реально работает</h3>
+        <ul>
+          <li><span class="tag-good">СИОЗС / СИОЗСиН</span> — первая линия терапии</li>
+          <li><span class="tag-good">Когнитивно-поведенческая терапия</span> — так же эффективна как антидепрессанты</li>
+          <li><span class="tag-good">Физическая активность</span> — доказана эффективность при лёгкой депрессии</li>
+          <li><span class="tag-good">Нормализация сна</span> — критически важна</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ВОПРОСЫ ВРАЧУ -->
+    <div id="tab-questions" class="tab-content">
+      <div class="info-card">
+        <h3>💬 Что спросить на приёме у психиатра</h3>
+        <p style="margin-bottom:14px">Распечатай или сохрани — и задай эти вопросы:</p>
+        <ul>
+          <li>Какой препарат вы назначаете и почему именно его?</li>
+          <li>Какая терапевтическая доза? Когда мы будем её повышать?</li>
+          <li>Через сколько недель ждать эффект?</li>
+          <li>Что делать если станет хуже в начале?</li>
+          <li>Когда назначена следующая встреча?</li>
+          <li>Сколько времени я буду принимать препарат?</li>
+          <li>Нужна ли мне параллельно психотерапия?</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>🚩 Красные флаги на приёме</h3>
+        <p style="margin-bottom:14px">Стоит задуматься о смене врача если:</p>
+        <ul>
+          <li>Назначают фенибут, глицин, ноотропы "при депрессии"</li>
+          <li>Назначают СИОЗС и говорят "придёте через полгода" без промежуточного контроля</li>
+          <li>Не объясняют ничего про препарат</li>
+          <li>Доза не пересматривается 3+ месяца без эффекта</li>
+          <li>Запрещают говорить о своих симптомах</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DOCTORS PAGE -->
+<div id="doctors-page" style="display:none">
+  <div class="header">
+    <div class="header-title">Доказательные специалисты</div>
+    <div class="header-sub">Психиатры и психологи — только доказательный подход</div>
+  </div>
+
+  <div class="info-section" style="margin-top:24px">
+    <div class="info-card">
+      <h3>🌐 Онлайн-платформы</h3>
+      <ul>
+        <li style="margin-bottom:12px">
+          <strong>Alter</strong> — психологи с подтверждённым образованием, КПТ<br>
+          <a href="https://alter.ru" target="_blank" class="doctor-link">alter.ru →</a>
+        </li>
+        <li style="margin-bottom:12px">
+          <strong>Zigmund.Online</strong> — психологи, онлайн<br>
+          <a href="https://zigmund.online" target="_blank" class="doctor-link">zigmund.online →</a>
+        </li>
+        <li style="margin-bottom:12px">
+          <strong>YouTalk</strong> — онлайн-психологи<br>
+          <a href="https://youtalk.ru" target="_blank" class="doctor-link">youtalk.ru →</a>
+        </li>
+        <li>
+          <strong>Docdoc / СберЗдоровье</strong> — психиатры онлайн<br>
+          <a href="https://sberzdorovie.ru" target="_blank" class="doctor-link">sberzdorovie.ru →</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <h3>📚 Как выбрать психолога</h3>
+      <ul>
+        <li>Образование — психфак или мед + специализация</li>
+        <li>Метод — КПТ, схема-терапия, EMDR (при травме)</li>
+        <li>Проходит личную терапию и супервизию</li>
+        <li>Не обещает "исцеление" и не навязывает много сессий</li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <h3>🆘 Кризисная помощь</h3>
+      <p style="margin-bottom:10px">Если мысли о суициде или самоповреждении:</p>
+      <ul>
+        <li><strong>Телефон доверия:</strong> 8-800-2000-122 (бесплатно, круглосуточно)</li>
+        <li><strong>Скорая:</strong> 112</li>
+        <li><strong>Психиатрическая служба:</strong> обратись в любую психиатрическую больницу</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+  { text: "Снижение настроения, тоска, подавленность", redFlag: false },
+  { text: "Потеря интереса или удовольствия от привычных дел", redFlag: false },
+  { text: "Усталость, упадок сил, ощущение истощения", redFlag: false },
+  { text: "Ощущение безнадёжности или пустоты", redFlag: false },
+  { text: "Трудности с концентрацией (чтение, работа, разговор)", redFlag: false },
+  { text: "Замедленность мышления или «туман в голове»", redFlag: false },
+  { text: "Чувство вины или собственной никчёмности", redFlag: false },
+  { text: "Негативные мысли о себе («я не справляюсь», «я плохой»)", redFlag: false },
+  { text: "Нарушение сна — бессонница или повышенная сонливость", redFlag: false },
+  { text: "Изменение аппетита — снижение или повышение", redFlag: false },
+  { text: "Снижение либидо", redFlag: false },
+  { text: "Внутреннее беспокойство или заторможенность", redFlag: false },
+  { text: "Телесные жалобы без явной причины (боли, тяжесть, слабость)", redFlag: false },
+  { text: "Стало значительно труднее работать или выполнять бытовые дела", redFlag: false },
+  { text: "Снижение общения, избегание людей", redFlag: false },
+  { text: "Приходится заставлять себя делать даже простые повседневные вещи", redFlag: false },
+  { text: "Были ли мысли о том, что жить не хочется", redFlag: true },
+  { text: "Были ли мысли о самоповреждении или суициде", redFlag: true },
+];
+
+const OPTIONS = [
+  { label: "Совсем нет", score: 0 },
+  { label: "Несколько дней", score: 1 },
+  { label: "Больше половины дней", score: 2 },
+  { label: "Почти каждый день", score: 3 },
+];
+
+let answers = new Array(QUESTIONS.length).fill(null);
+let currentQ = 0;
+
+function startTest() {
+  document.getElementById('screen-intro').classList.remove('active');
+  document.getElementById('screen-question').classList.add('active');
+  renderQuestion(0);
+}
+
+
+function renderQuestion(idx) {
+  currentQ = idx;
+  const q = QUESTIONS[idx];
+  const total = QUESTIONS.length;
+
+  // Progress
+  document.getElementById('progress-fill').style.width = ((idx / total) * 100) + '%';
+  document.getElementById('progress-label').textContent = `Вопрос ${idx + 1} из ${total}`;
+
+  // Red flag banner
+  const banner = document.getElementById('red-flag-banner');
+  banner.style.display = q.redFlag ? 'flex' : 'none';
+
+  // Question
+  document.getElementById('q-num').textContent = q.redFlag ? '🚩 Важный вопрос' : `Вопрос ${idx + 1}`;
+  document.getElementById('q-text').textContent = q.text;
+
+  // Sub label — hide for red flag questions
+  const sub = document.querySelector('.question-sub');
+  sub.style.display = q.redFlag ? 'none' : 'block';
+
+  // Options
+  const container = document.getElementById('q-options');
+  container.innerHTML = '';
+  OPTIONS.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'option' + (answers[idx] === opt.score ? ' selected' : '');
+    div.innerHTML = `<div class="option-score">${opt.score}</div><span>${opt.label}</span>`;
+    div.onclick = () => selectOption(idx, opt.score);
+    container.appendChild(div);
+  });
+
+  // Back button
+  document.getElementById('btn-back').style.display = idx === 0 ? 'none' : 'block';
+
+  // Next button
+  const btnNext = document.getElementById('btn-next');
+  btnNext.textContent = idx === total - 1 ? 'Показать результат →' : 'Далее →';
+  btnNext.classList.toggle('enabled', answers[idx] !== null);
+}
+
+function selectOption(idx, score) {
+  answers[idx] = score;
+  renderQuestion(idx);
+}
+
+function nextQuestion() {
+  if (answers[currentQ] === null) return;
+  if (currentQ < QUESTIONS.length - 1) {
+    renderQuestion(currentQ + 1);
+  } else {
+    showResult();
+  }
+}
+
+function prevQuestion() {
+  if (currentQ > 0) renderQuestion(currentQ - 1);
+}
+
+function showResult() {
+  const mainScore = answers.slice(0, 16).reduce((a, b) => a + (b || 0), 0);
+  const redFlagScore = answers.slice(16, 18).reduce((a, b) => a + (b || 0), 0);
+
+  document.getElementById('screen-question').classList.remove('active');
+  document.getElementById('screen-result').classList.add('active');
+  document.getElementById('progress-fill').style.width = '100%';
+  document.getElementById('progress-label').textContent = 'Завершено!';
+
+  let level, emoji, title, text, rec, color;
+
+  if (mainScore < 5) {
+    level = 0; emoji = '😊'; color = '#4caf82';
+    title = 'Норма — минимальные симптомы';
+    text = 'По результатам теста явных признаков депрессии не выявлено. Некоторые симптомы могут быть связаны с обычной усталостью или стрессом.';
+    rec = '👍 Продолжай заботиться о себе: сон, движение, общение. Если самочувствие ухудшится — повтори тест.';
+  } else if (mainScore < 10) {
+    level = 1; emoji = '😔'; color = '#f5a623';
+    title = 'Лёгкая депрессия';
+    text = 'Есть признаки сниженного настроения. На этом уровне часто можно обойтись без медикаментов.';
+    rec = '🧠 Рекомендуется консультация психолога (КПТ). Помогут: регулярная физическая активность, нормализация сна, психотерапия.';
+  } else if (mainScore < 15) {
+    level = 2; emoji = '😞'; color = '#f07843';
+    title = 'Умеренные симптомы депрессии';
+    text = 'Симптомы заметно влияют на качество жизни. Стоит обратиться к специалисту.';
+    rec = '👩‍⚕️ Рекомендуется обратиться к психиатру или психотерапевту. Возможна комбинация психотерапии и медикаментов.';
+  } else if (mainScore < 20) {
+    level = 3; emoji = '😢'; color = '#e07843';
+    title = 'Умеренно-тяжёлые симптомы';
+    text = 'Симптомы выраженные. Медикаментозная терапия, скорее всего, показана.';
+    rec = '🏥 Рекомендуется консультация психиатра. Антидепрессанты на этом уровне — это не слабость, это лечение.';
+  } else {
+    level = 4; emoji = '🆘'; color = '#e05252';
+    title = 'Высокая вероятность клинической депрессии';
+    text = 'Симптомы тяжёлые. Необходима консультация психиатра как можно скорее.';
+    rec = '🚨 Пожалуйста, обратись к психиатру в ближайшее время. Ты заслуживаешь помощи и лечения.';
+  }
+
+  let html = '';
+
+  // Red flag alert
+  if (redFlagScore >= 1) {
+    html += `<div class="alert-card">
+      <div class="alert-title">🆘 Важно — требует внимания</div>
+      <div class="alert-text">
+        Ты ответил(а) на вопросы о нежелании жить или мыслях о самоповреждении. Пожалуйста, свяжись со специалистом сегодня.<br><br>
+        <strong>Телефон доверия: 8-800-2000-122</strong> (бесплатно, круглосуточно)
+      </div>
+    </div>`;
+  }
+
+  html += `<div class="result-card">
+    <div class="result-emoji">${emoji}</div>
+    <div class="result-score-wrap">
+      <div class="result-score" style="color:${color}">${mainScore}</div>
+      <div class="result-score-label">баллов из 48</div>
+    </div>
+    <div class="result-title" style="color:${color}">${title}</div>
+    <div class="result-text">${text}</div>
+    <div class="result-rec">
+      <div class="result-rec-title">Что делать</div>
+      ${rec}
+    </div>
+  </div>
+  <div class="result-card" style="text-align:center">
+    <p style="font-size:14px;color:var(--text2);margin-bottom:16px">Хочешь узнать больше о лечении или найти доказательного специалиста?</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button onclick="showPage('info-page')" style="padding:10px 20px;border-radius:10px;border:1.5px solid var(--accent);background:transparent;color:var(--accent);font-size:14px;font-weight:600;cursor:pointer;font-family:'Onest',sans-serif">💊 О лечении</button>
+      <button onclick="showPage('doctors-page')" style="padding:10px 20px;border-radius:10px;border:1.5px solid var(--accent);background:transparent;color:var(--accent);font-size:14px;font-weight:600;cursor:pointer;font-family:'Onest',sans-serif">👩‍⚕️ Найти врача</button>
+    </div>
+  </div>
+  <div style="text-align:center;padding:0 0 16px">
+    <button onclick="resetTest()" style="background:transparent;border:none;color:var(--text3);font-size:13px;cursor:pointer;font-family:'Onest',sans-serif;text-decoration:underline">Пройти тест заново</button>
+  </div>`;
+
+  document.getElementById('result-content').innerHTML = html;
+}
+
+function resetTest() {
+  answers = new Array(QUESTIONS.length).fill(null);
+  currentQ = 0;
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-intro').classList.add('active');
+  document.getElementById('progress-fill').style.width = '0%';
+}
+
+function showPage(pageId) {
+  document.getElementById('test-page').style.display = 'none';
+  document.getElementById('info-page').style.display = 'none';
+  document.getElementById('doctors-page').style.display = 'none';
+  document.getElementById(pageId).style.display = 'block';
+
+  document.getElementById('nav-test').classList.remove('active');
+  document.getElementById('nav-info').classList.remove('active');
+  document.getElementById('nav-doctors').classList.remove('active');
+
+  if (pageId === 'test-page') document.getElementById('nav-test').classList.add('active');
+  if (pageId === 'info-page') document.getElementById('nav-info').classList.add('active');
+  if (pageId === 'doctors-page') document.getElementById('nav-doctors').classList.add('active');
+}
+
+function switchTab(tabId, el) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  el.classList.add('active');
+}
+</script>
+</body>
+</html>
