@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390, initial-scale=1.0">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  width: 390px;
+  height: 390px;
+  background: #f5f5f0;
+  overflow: hidden;
+}
+.card {
+  width: 390px;
+  height: 390px;
+  background: #f5f5f0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.line { width: 20px; height: 2px; background: #0a0a0a; margin-bottom: 16px; }
+.question {
+  font-size: 30px;
+  font-weight: 700;
+  color: #0a0a0a;
+  line-height: 1.2;
+  margin-bottom: 18px;
+  font-family: 'Georgia', serif;
+}
+.question span { color: #aaaaaa; }
+.body {
+  font-size: 13px;
+  color: #555555;
+  line-height: 1.75;
+  font-family: Arial, sans-serif;
+  font-weight: 300;
+}
+.highlight { color: #0a0a0a; font-weight: 500; }
+.footer {
+  font-size: 10px;
+  color: #bbbbbb;
+  font-family: Arial, sans-serif;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  position: absolute;
+  bottom: 24px;
+  left: 32px;
+  right: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.handle { color: #0a0a0a; font-weight: 600; }
+.corner {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 28px;
+  height: 28px;
+  border-top: 1.5px solid #dddddd;
+  border-right: 1.5px solid #dddddd;
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="corner"></div>
+  <div class="line"></div>
+  <div class="question">Это <span>не</span><br>усталость.<br>Это депрессия.</div>
+  <div class="body">
+    Ты высыпаешься — но всё равно без сил.<br>
+    Отдыхаешь — но легче не становится.<br>
+    Себя не узнаёшь.<br><br>
+    <span class="highlight">Усталость проходит после отдыха.<br>
+    Депрессия — нет.</span>
+  </div>
+  <div class="footer">
+    <span>Проверь себя — ссылка в профиле →</span>
+    <span class="handle">@bez.fufla</span>
+  </div>
+</div>
+</body>
+</html>
