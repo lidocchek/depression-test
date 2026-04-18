@@ -367,7 +367,8 @@ function prevQuestion() {
 }
 
 function showResult() {
-  const mainScore = answers.slice(0, 16).reduce((a, b) => a + (b || 0), 0);
+  ym(108659746, 'reachGoal', 'test_completed');
+const mainScore = answers.slice(0, 16).reduce((a, b) => a + (b || 0), 0);
   const redFlagScore = answers.slice(16, 18).reduce((a, b) => a + (b || 0), 0);
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-result').classList.add('active');
